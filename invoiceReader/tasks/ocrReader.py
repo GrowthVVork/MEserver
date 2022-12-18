@@ -1,1 +1,1 @@
-# ocr reading using keras lib
+# OCR Reader class (using keras lib)
