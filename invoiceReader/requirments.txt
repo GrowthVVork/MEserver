@@ -1,0 +1,4 @@
+Download exe from https://github.com/UB-Mannheim/tesseract/wiki and place it same as TESSERACT_EXE_ABS_PATH under CONSTANTS
+Download 7z from https://blog.alivate.com.au/poppler-windows/ and place it same as POPPLER_BIN_ABS_PATH under CONSTANTS
+pip install pytesseract
+pip install numpy
