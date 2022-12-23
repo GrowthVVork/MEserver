@@ -15,7 +15,7 @@ pytesseract.pytesseract.tesseract_cmd = CONSTANTS.TESSERACT_EXE_ABS_PATH
 
 class ocrReader:
     def __init__(self) -> None:
-        # print(self.ocrParser(testPDF))
+        print(self.ocrParser(testPDF))
         pass
     def ocrParser(self, filePath):
         """
@@ -23,16 +23,16 @@ class ocrReader:
         :param filePath: String - Absolute Path of file
         :return texts : List of strings - Text version 
         """
-        doc = convert_from_path(filePath, 300, poppler_path=CONSTANTS.POPPLER_BIN_ABS_PATH)
         texts = []
         fileExtention = pathlib.Path(filePath).suffix.lower()
         if fileExtention == FileType.PDF.value:
+            doc = convert_from_path(filePath, 300, poppler_path=CONSTANTS.POPPLER_BIN_ABS_PATH)
             for pageNumber, pageData in enumerate(doc):
                 pageData = numpy.array(pageData)
                 txt = pytesseract.image_to_string(Image.fromarray(pageData))
                 texts.append(txt)
         elif fileExtention == FileType.PNG.value:
-            txt = pytesseract.image_to_string(Image.fromarray(numpy.array(doc)))
+            txt = pytesseract.image_to_string(Image.open(filePath),config='--psm 3')
             texts.append(txt)
         else:
             print("Given file is of unsuppported type.")
@@ -40,5 +40,5 @@ class ocrReader:
         return texts
 
 # To test this module please uncomment below lines and line 18 and execute the file
-# testPDF = CONSTANTS.TEST_PDF_FILE
-# ocrReader()
+testPDF = CONSTANTS.TEST_37bestpng_FILE
+ocrReader()
