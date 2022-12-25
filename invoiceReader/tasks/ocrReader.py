@@ -1,21 +1,21 @@
 # OCR Reader class
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from PIL import Image
-import numpy
-import pytesseract
-from invoiceReader.libs import CONSTANTS
-from invoiceReader.libs.FileType import FileType
-from pdf2image import convert_from_path
+from multiprocessing import freeze_support
 import pathlib
-
-# PyTesseract process
-pytesseract.pytesseract.tesseract_cmd = CONSTANTS.TESSERACT_EXE_ABS_PATH
-
+import os
+import sys
+os.environ['USE_TORCH'] = '1'
+import inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir)
+from libs import CONSTANTS
+from libs.FileType import FileType
+from doctr.io import DocumentFile
+from doctr.models import ocr_predictor
+import re
+os.add_dll_directory(CONSTANTS.GTK_DLLS_ABS_PATH)
 class ocrReader:
     def __init__(self) -> None:
-        print(self.ocrParser(testPDF))
         pass
     def ocrParser(self, filePath):
         """
@@ -23,22 +23,50 @@ class ocrReader:
         :param filePath: String - Absolute Path of file
         :return texts : List of strings - Text version 
         """
-        texts = []
         fileExtention = pathlib.Path(filePath).suffix.lower()
         if fileExtention == FileType.PDF.value:
-            doc = convert_from_path(filePath, 300, poppler_path=CONSTANTS.POPPLER_BIN_ABS_PATH)
-            for pageNumber, pageData in enumerate(doc):
-                pageData = numpy.array(pageData)
-                txt = pytesseract.image_to_string(Image.fromarray(pageData))
-                texts.append(txt)
+            doc = DocumentFile.from_pdf(filePath)
+            print("Found PDF type file {}".format(filePath))
         elif fileExtention == FileType.PNG.value:
-            txt = pytesseract.image_to_string(Image.open(filePath),config='--psm 3')
-            texts.append(txt)
+            doc = DocumentFile.from_images([filePath])
+            print("Found PNG type file {}".format(filePath))
         else:
             print("Given file is of unsuppported type.")
             return None
+        return self.__stringConversion(doc)
+
+    def __stringConversion(self, document):
+        """
+        Do ocr on given document and return return list of strings.
+        :param document: String - Absolute Path of file
+        :return texts : List of strings - Text version 
+        """
+        texts = []
+        predictor = ocr_predictor(pretrained=True)
+        result = predictor(document)
+        json_export = result.export()
+        # Uncomment below line to see complete document analysis
+        # print(json_export)
+        for page in json_export['pages']:
+            for block in page['blocks']:
+                for line in block['lines']:
+                    for word in line['words']:
+                        texts.append(word['value'])
         return texts
 
-# To test this module please uncomment below lines and line 18 and execute the file
-testPDF = CONSTANTS.TEST_37bestpng_FILE
-ocrReader()
+# To test this module please uncomment below lines and execute the file
+# if __name__ == '__main__':
+#     testFile = CONSTANTS.TEST_PDF_FILE
+#     freeze_support()
+#     parser = ocrReader()
+#     texts = parser.ocrParser(testFile)
+#     for text in texts:
+#         if re.findall(CONSTANTS.INVOICE_MATCHING_PATTERN, text):
+#             print(text)
+
+
+
+
+
+
+

@@ -2,10 +2,12 @@
 import argparse
 import logging
 import logging.config
+from multiprocessing import freeze_support
 import os
 from datetime import datetime
-# from dotenv import find_dotenv, load_dotenv
+from tasks.ocrReader import ocrReader
 
+# from dotenv import find_dotenv, load_dotenv
 # find .env file in parent directory
 # env_file = find_dotenv()
 # load_dotenv()
@@ -28,17 +30,24 @@ if not src_dir.exists():
     print("The source directory doesn't exist")
     raise SystemExit(1)
 
-def setup_logging():
-    """Load logging configuration"""
-    log_configs = {"dev": "logging.dev.ini", "prod": "logging.prod.ini"}
-    config = log_configs.get(os.environ["ENV"], "logging.dev.ini")
-    config_path = "/".join([CONFIG_DIR, config])
+# def setup_logging():
+#     """Load logging configuration"""
+#     log_configs = {"dev": "logging.dev.ini", "prod": "logging.prod.ini"}
+#     config = log_configs.get(os.environ["ENV"], "logging.dev.ini")
+#     config_path = "/".join([CONFIG_DIR, config])
 
-    timestamp = datetime.now().strftime("%Y%m%d-%H:%M:%S")
+#     timestamp = datetime.now().strftime("%Y%m%d-%H:%M:%S")
 
-    logging.config.fileConfig(
-        config_path,
-        disable_existing_loggers=False,
-        defaults={"logfilename": f"{LOG_DIR}/{timestamp}.log"},
-    )
+#     logging.config.fileConfig(
+#         config_path,
+#         disable_existing_loggers=False,
+#         defaults={"logfilename": f"{LOG_DIR}/{timestamp}.log"},
+#     )
+
+if __name__ == '__main__':
+    testFile = r'D:\GrowthVVork\MEserver\invoiceReader\test\37bad.png'
+    parser = ocrReader()
+    freeze_support()
+    for file in src_dir:
+        print(parser.ocrParser(file))
 

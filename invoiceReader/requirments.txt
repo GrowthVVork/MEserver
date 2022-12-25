@@ -1,4 +1,12 @@
-Download exe from https://github.com/UB-Mannheim/tesseract/wiki and place it same as TESSERACT_EXE_ABS_PATH under CONSTANTS
-Download 7z from https://blog.alivate.com.au/poppler-windows/ and place it same as POPPLER_BIN_ABS_PATH under CONSTANTS
-pip install pytesseract
+-- NOT GOOD OCR Download exe from https://github.com/UB-Mannheim/tesseract/wiki and place it same as TESSERACT_EXE_ABS_PATH under CONSTANTS
+-- NOT GOOD OCR Download 7z from https://blog.alivate.com.au/poppler-windows/ and place it same as POPPLER_BIN_ABS_PATH under CONSTANTS
+-- NOT GOOD OCR pip install pytesseract
+
+Source :- https://github.com/mindee/doctr
+
 pip install numpy
+pip install python-doctr
+pip install "python-doctr[tf]"
+pip install "python-doctr[torch]"
+INSTALL exe in dependencies directory
+RUN -> set WEASYPRINT_DLL_DIRECTORIES=C:\GTK3\bin;D:\GTK3\bin
