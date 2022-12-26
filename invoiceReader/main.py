@@ -6,7 +6,9 @@ from datetime import datetime
 from tasks.ocrReader import ocrReader
 from tasks.FileHandler import FileHandler
 from pathlib import Path
+import re
 import logging
+from libs import CONSTANTS
 # Below line is to see all imported modules and their respective logger info
 # logging.Logger.manager.loggerDict
 
@@ -25,19 +27,24 @@ if __name__ == '__main__':
     if args.source == None:
         print("The source directory doesn't exist")
         raise SystemExit(1)
-    if args.destination == None:
+    if args.destination == None or not os.path.exists(args.destination):
         print("The destination directory doesn't exist")
-        raise SystemExit(1)
+        os.makedirs(args.destination)
+        print("Created the destination directory {}".format(args.destination))
+        # raise SystemExit(1)
     for file in os.listdir(args.source):
         completeFilePath = os.path.join(args.source, file)
-        destinationFile = os.path.splitext(completeFilePath)[0]
+        destinationFile = os.path.splitext(file)[0]
         destinationFile += ".txt"
+        destinationFile = args.destination + destinationFile
         # To see input file, uncomment below line
         # print(file)
         val = parser.ocrParser(completeFilePath)
-        if val is not None:
-            val = ''.join([item for item in val])
-        fileHandle.stringToFile(val, destinationFile)
+        outputText = ''
+        for text in val:
+            if re.findall(CONSTANTS.INVOICE_MATCHING_PATTERN, text):
+                outputText = text
+        fileHandle.stringToFile(outputText, destinationFile)
 
 # How to run :-
-# python  d:/GrowthVVork/MEserver/invoiceReader/main.py -src D:\GrowthVVork\MEserver\invoiceReader\test\ -dest D:\GrowthVVork\MEserver\invoiceReader\test\
+# python  d:/GrowthVVork/MEserver/invoiceReader/main.py -src D:\GrowthVVork\MEserver\invoiceReader\test\ -dest D:\GrowthVVork\MEserver\invoiceReader\Output\

@@ -55,14 +55,14 @@ class ocrReader:
         return texts
 
 # To test this module please uncomment below lines and execute the file
-if __name__ == '__main__':
-    testFile = CONSTANTS.TEST_38badpng_FILE
-    freeze_support()
-    parser = ocrReader()
-    texts = parser.ocrParser(testFile)
-    for text in texts:
-        if re.findall(CONSTANTS.INVOICE_MATCHING_PATTERN, text):
-            print(text)
+# if __name__ == '__main__':
+#     testFile = CONSTANTS.TEST_38badpng_FILE
+#     freeze_support()
+#     parser = ocrReader()
+#     texts = parser.ocrParser(testFile)
+#     for text in texts:
+#         if re.findall(CONSTANTS.INVOICE_MATCHING_PATTERN, text):
+#             print(text)
 
 
 
