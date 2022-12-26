@@ -9,6 +9,7 @@ from pathlib import Path
 import re
 import logging
 from libs import CONSTANTS
+from libs.FileType import FileType
 # Below line is to see all imported modules and their respective logger info
 # logging.Logger.manager.loggerDict
 
@@ -35,7 +36,7 @@ if __name__ == '__main__':
     for file in os.listdir(args.source):
         completeFilePath = os.path.join(args.source, file)
         destinationFile = os.path.splitext(file)[0]
-        destinationFile += ".txt"
+        destinationFile += FileType.TXT.value
         destinationFile = args.destination + destinationFile
         # To see input file, uncomment below line
         # print(file)
@@ -43,7 +44,7 @@ if __name__ == '__main__':
         outputText = ''
         for text in val:
             if re.findall(CONSTANTS.INVOICE_MATCHING_PATTERN, text):
-                outputText = text
+                outputText = 'SI' + text[2:]
         fileHandle.stringToFile(outputText, destinationFile)
 
 # How to run :-

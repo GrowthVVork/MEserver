@@ -5,6 +5,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 from libs.FileType import FileType
 import logging
 LOGGER = logging.getLogger(__name__)
+from libs import CONSTANTS
 class FileHandler:
     def __init__(self) -> None:
         pass
@@ -29,9 +30,11 @@ class FileHandler:
         :param destFilePath: String - Absolute file path
         :return None
         """
-        if text != None:
+        # Uncomment below line to see o/p to be written into file
+        # print(text)
+        if text != None and len(text) == CONSTANTS.INVOICE_MIN_CHAR_LIMIT:
             with open(destFilePath, "w") as textFile:
                 textFile.write(text)
             return None
-        print("None type string value found to write into file, not supported for {}.".format(destFilePath))
+        print("Invalid string value found to write into file, file creation failed for {}.".format(destFilePath))
         return None
