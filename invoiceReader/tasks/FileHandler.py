@@ -2,7 +2,7 @@ import pathlib
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-from invoiceReader.libs.FileType import FileType
+from libs.FileType import FileType
 import logging
 LOGGER = logging.getLogger(__name__)
 class FileHandler:
@@ -22,12 +22,16 @@ class FileHandler:
         filesList = [file for file in filesList if pathlib.Path(file).suffix.lower() == extension]
         return filesList
 
-    def stringToFile(self, string, destFilePath):
+    def stringToFile(self, text, destFilePath):
         """
         Write string to given file.
-        :param string: String - String value to be written to file
+        :param text: String - String value to be written to file
         :param destFilePath: String - Absolute file path
         :return None
         """
-        with open(destFilePath, "w") as textFile:
-            textFile.write(string)
+        if text != None:
+            with open(destFilePath, "w") as textFile:
+                textFile.write(text)
+            return None
+        print("None type string value found to write into file, not supported for {}.".format(destFilePath))
+        return None

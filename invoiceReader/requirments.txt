@@ -5,6 +5,7 @@
 Source :- https://github.com/mindee/doctr
 
 pip install numpy
+pip install weasyprint
 pip install python-doctr
 pip install "python-doctr[tf]"
 pip install "python-doctr[torch]"
