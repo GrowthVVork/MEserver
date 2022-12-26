@@ -45,7 +45,7 @@ class ocrReader:
         predictor = ocr_predictor(pretrained=True)
         result = predictor(document)
         json_export = result.export()
-        # Uncomment below line to see complete document analysis
+        # Uncomment below line to see complete document analysis with confidence
         # print(json_export)
         for page in json_export['pages']:
             for block in page['blocks']:
@@ -60,11 +60,13 @@ class ocrReader:
 #     freeze_support()
 #     parser = ocrReader()
 #     texts = parser.ocrParser(testFile)
+#     # Uncomment below line to see raw textual o/p
+#     # print(texts)
 #     for text in texts:
+#         # PATTERN MATCH FAILURE FOR 'S1/07338/19' value.
 #         if re.findall(CONSTANTS.INVOICE_MATCHING_PATTERN, text):
+#             text = 'SI' + text[2:]
 #             print(text)
-
-
 
 
 
