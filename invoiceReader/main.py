@@ -33,14 +33,13 @@ if __name__ == '__main__':
         os.makedirs(args.destination)
         print("Created the destination directory {}".format(args.destination))
         # raise SystemExit(1)
-    for file in os.listdir(args.source):
-        completeFilePath = os.path.join(args.source, file)
-        destinationFile = os.path.splitext(file)[0]
-        destinationFile += FileType.TXT.value
-        destinationFile = args.destination + destinationFile
+    validFileList = fileHandle.filesSelector(args.source, FileType.PNG.value)
+    # print(validFileList)
+    for file in validFileList:
+        destinationFile = args.destination +  file.rpartition('\\')[-1] + FileType.TXT.value
         # To see input file, uncomment below line
         # print(file)
-        val = parser.ocrParser(completeFilePath)
+        val = parser.ocrParser(file)
         outputText = ''
         for text in val:
             if re.findall(CONSTANTS.INVOICE_MATCHING_PATTERN, text):

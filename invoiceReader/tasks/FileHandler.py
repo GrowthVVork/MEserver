@@ -16,11 +16,13 @@ class FileHandler:
         :param directory: String - Directory where files exist
         :return files : List of files having same extention.
         """
+        print("Source directory {}".format(directory))
         if extension not in [ext.value for ext in FileType]:
             SystemExit(1)
-        extension = '.'+ extension.lower()
         filesList = os.listdir(directory)
-        filesList = [file for file in filesList if pathlib.Path(file).suffix.lower() == extension]
+        print("RAW file list {}".format(filesList))
+        print("Extention to check is {}".format(extension))
+        filesList = [os.path.join(directory, file) for file in filesList if pathlib.Path(file).suffix.lower() == extension]
         return filesList
 
     def stringToFile(self, text, destFilePath):
