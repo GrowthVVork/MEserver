@@ -1,6 +1,7 @@
 import pathlib
 import sys
 import os
+import shutil
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 from libs.FileType import FileType
 import logging
@@ -40,3 +41,33 @@ class FileHandler:
             return None
         print("Invalid string value found to write into file, file creation failed for {}.".format(destFilePath))
         return None
+    def copyFiles(self, srcFilePath, destFilePath):
+       
+        # source and destination folder path
+        src_path = 'D:\Code\Test\source'
+        dest_path = 'D:\Code\Test\Target'
+
+        # invoice name
+        inv_num = 'Test'
+        extension = '.txt'
+        cpy_num = ''
+        i=0
+        inv_name = inv_num + cpy_num + extension
+
+        # building source and destination paths
+        src_path_file_name = os.path.join(src_path, inv_name)
+        dest_path_file_name = os.path.join(dest_path, inv_name)
+
+        # check if file already exist is destination
+        isExisting = os.path.exists(dest_path_file_name)
+
+        while isExisting == True:
+            i = i + 1
+            cpy_num = f'({i})'
+            inv_name = inv_num + cpy_num + extension
+            dest_path_file_name = os.path.join(dest_path, inv_name)
+            isExisting = os.path.exists(dest_path_file_name)
+
+
+        # moving the file
+        shutil.move(src_path_file_name, dest_path_file_name)
