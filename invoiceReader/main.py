@@ -16,8 +16,8 @@ from libs.FileType import FileType
 argParser = argparse.ArgumentParser()
 argParser.add_argument("-src", "--source", help="Directory where invoices files exist.")
 argParser.add_argument("-dest", "--destination", help="Directory where final invoices should be saved.")
-argParser.add_argument("-b", "--batchSize", help="Number of files to be processed in a batch.")
-
+argParser.add_argument("-bSize", "--batchSize", help="Number of files to be processed in a batch.")
+argParser.add_argument("-type", "--fileType", help="Type of file to process.")
 if __name__ == '__main__':
     # testFile = r'D:\GrowthVVork\MEserver\invoiceReader\test\37bad.png'
     # print(logging.Logger.manager.loggerDict)
@@ -33,19 +33,21 @@ if __name__ == '__main__':
         os.makedirs(args.destination)
         print("Created the destination directory {}".format(args.destination))
         # raise SystemExit(1)
-    for file in os.listdir(args.source):
-        completeFilePath = os.path.join(args.source, file)
-        destinationFile = os.path.splitext(file)[0]
-        destinationFile += FileType.TXT.value
-        destinationFile = args.destination + destinationFile
+    if args.fileType not in [ext.value for ext in FileType]:
+            SystemExit(1)
+    validFileList = fileHandle.filesSelector(args.source, args.fileType)
+    # print(validFileList)
+    for file in validFileList:
         # To see input file, uncomment below line
         # print(file)
-        val = parser.ocrParser(completeFilePath)
+        val = parser.ocrParser(file)
         outputText = ''
         for text in val:
             if re.findall(CONSTANTS.INVOICE_MATCHING_PATTERN, text):
                 outputText = 'SI' + text[2:]
-        fileHandle.stringToFile(outputText, destinationFile)
+                # SI/07336/19 as file name is not allowed :)
+                outputText = outputText.replace('/', '_')
+                fileHandle.moveFile(file, args.destination, args.fileType, outputText)
 
 # How to run :-
-# python  d:/GrowthVVork/MEserver/invoiceReader/main.py -src D:\GrowthVVork\MEserver\invoiceReader\test\ -dest D:\GrowthVVork\MEserver\invoiceReader\Output\
+# python  & C:/Users/TEJAS/AppData/Local/Programs/Python/Python310/python.exe d:/GrowthVVork/MEserver/invoiceReader/main.py -src D:\GrowthVVork\MEserver\invoiceReader\test\ -dest D:\GrowthVVork\MEserver\invoiceReader\output\ -type .png
