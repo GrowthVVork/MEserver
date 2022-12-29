@@ -33,6 +33,7 @@ if __name__ == '__main__':
         os.makedirs(args.destination)
         print("Created the destination directory {}".format(args.destination))
         # raise SystemExit(1)
+    args.fileType = args.fileType.lower()
     if args.fileType not in [ext.value for ext in FileType]:
             SystemExit(1)
     validFileList = fileHandle.filesSelector(args.source, args.fileType)
