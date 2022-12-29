@@ -19,6 +19,7 @@ class FileHandler:
         """
         print("Source directory {}".format(directory))
         if extension not in [ext.value for ext in FileType]:
+            print("Unsupported type found!")
             SystemExit(1)
         filesList = os.listdir(directory)
         print("RAW file list {}".format(filesList))
@@ -41,33 +42,35 @@ class FileHandler:
             return None
         print("Invalid string value found to write into file, file creation failed for {}.".format(destFilePath))
         return None
-    def copyFiles(self, srcFilePath, destFilePath):
-       
-        # source and destination folder path
-        src_path = 'D:\Code\Test\source'
-        dest_path = 'D:\Code\Test\Target'
+    
+    def moveFile(self, srcFilePath, destinationPath, fileTypeValue, customName = None, overrideFlag = False):
+        """
+        Move given file to destination.
+        :param srcFilePath: String - Source file path
+        :param destinationPath: String - Destination file path
+        :param fileTypeValue: FileType value
+        :param customName: String - Custom file name
+        :param overrideFlag: Boolean - Flag to override destination file if exists already
+        :return None
+        """
+        if customName is not None:
+            destinationFile = destinationPath + customName + fileTypeValue
+        else:
+            destinationFile = destinationPath +  srcFilePath.rpartition('\\')[-1]
+        # Check if file already exist is destination
+        fileExists = os.path.exists(destinationFile)
+        if fileExists and overrideFlag:
+            print("{} file exists, overriding.".format(destinationFile))
+        elif fileExists and overrideFlag == False:
+            originalDestFile = destinationFile
+            i = 1
+            while fileExists:
+                print("{} file exists, appending number {} at file end.".format(destinationFile, i))
+                destinationFile = originalDestFile.split('.')[0] + '_' + str(i) + '.' + originalDestFile.split('.')[1]
+                fileExists = os.path.exists(destinationFile)
+                i+=1
+        # Moving the file
+        shutil.move(srcFilePath, destinationFile)
+        return
 
-        # invoice name
-        inv_num = 'Test'
-        extension = '.txt'
-        cpy_num = ''
-        i=0
-        inv_name = inv_num + cpy_num + extension
-
-        # building source and destination paths
-        src_path_file_name = os.path.join(src_path, inv_name)
-        dest_path_file_name = os.path.join(dest_path, inv_name)
-
-        # check if file already exist is destination
-        isExisting = os.path.exists(dest_path_file_name)
-
-        while isExisting == True:
-            i = i + 1
-            cpy_num = f'({i})'
-            inv_name = inv_num + cpy_num + extension
-            dest_path_file_name = os.path.join(dest_path, inv_name)
-            isExisting = os.path.exists(dest_path_file_name)
-
-
-        # moving the file
-        shutil.move(src_path_file_name, dest_path_file_name)
+        
