@@ -10,3 +10,7 @@ TEST_37badpng_FILE = (mod_path / 'test/' / '37bad.png').resolve()
 TEST_38badpng_FILE = (mod_path / 'test/' / '38bad.png').resolve()
 TEST_37bestpng_FILE = (mod_path / 'test/' / '37best.png').resolve()
 TEST_37bestpngcrop_FILE = (mod_path / 'test/' / '37bestcrop.png').resolve()
+LEFT_DIVISOR_VALUE = 2
+RIGHT_DIVISOR_VALUE = 3/4
+TOP_DIVISOR_VALUE = 15
+BOTTOM_DIVISOR_VALUE = 4

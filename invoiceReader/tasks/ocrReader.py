@@ -68,7 +68,3 @@ class ocrReader:
 #             text = 'SI' + text[2:]
 #             print(text)
 
-
-
-
-

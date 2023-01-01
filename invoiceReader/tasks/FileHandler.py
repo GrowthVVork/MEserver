@@ -5,6 +5,7 @@ import shutil
 from PIL import Image
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 from libs.FileType import FileType
+from invoiceReader.libs import CONSTANTS
 import logging
 LOGGER = logging.getLogger(__name__)
 from libs import CONSTANTS
@@ -16,7 +17,7 @@ class FileHandler:
         """
         Select only provided extention type of files from list of files in given directory.
         :param directory: String - Directory where files exist
-        :return files : List of files having same extention.
+        :return filesList : List of files having same extention.
         """
         print("Source directory {}".format(directory))
         if extension not in [ext.value for ext in FileType]:
@@ -74,20 +75,30 @@ class FileHandler:
         shutil.move(srcFilePath, destinationFile)
         return
         
-    def cropFile(self, srcFilePath ):
-        # Opens image
-        image = Image.open(srcFilePath)
-        width, height = image.size
+    def cropImage(self, srcFilePath, leftCoordinate = None, rightCoordinate = None, topCoordinate = None, bottomCoordinate = None):
+        """
+        Crop the given image to a particular subsection as per given or default coordinates.
+        :param srcFilePath: String - Source image file path
+        :param leftCoordinate: Integer - Left coordinate value
+        :param rightCoordinate: Integer - Right coordinate value
+        :param topCoordinate: Integer - Top coordinate value
+        :param bottomCoordinate: Integer - Bottom coordinate value
+        :return Image
+        """
+        srcImage = Image.open(srcFilePath)
+        width, height = srcImage.size
 
-        # Setting the points for cropped image
-        left = width/2
-        top = height/15
-        right = width * 3/4
-        bottom = height/4
+        # Setting the coordinates for cropped image
+        left = width/CONSTANTS.LEFT_DIVISOR_VALUE if leftCoordinate is None else leftCoordinate
+        right = width/CONSTANTS.RIGHT_DIVISOR_VALUE if rightCoordinate is None else rightCoordinate
+        top = height/CONSTANTS.TOP_DIVISOR_VALUE if topCoordinate is None else topCoordinate
+        bottom = height/CONSTANTS.BOTTOM_DIVISOR_VALUE if bottomCoordinate is None else bottomCoordinate
         
         # Crop image of above dimension
-        cropImage = image.crop((left, top, right, bottom))
+        croppedImage = srcImage.crop((left, top, right, bottom))
         
-        # im1.show() Shows the image in image viewer
-        return cropImage
+        # Uncomment below line to see the image in image viewer
+        # croppedImage.show()
+        
+        return croppedImage
         
