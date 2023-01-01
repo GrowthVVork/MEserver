@@ -41,7 +41,7 @@ if __name__ == '__main__':
     for file in validFileList:
         # To see input file, uncomment below line
         # print(file)
-        val = parser.ocrParser(file)
+        val = parser.ocrParser(fileHandle.cropFile(file))
         outputText = ''
         for text in val:
             if re.findall(CONSTANTS.INVOICE_MATCHING_PATTERN, text):
@@ -51,4 +51,4 @@ if __name__ == '__main__':
                 fileHandle.moveFile(file, args.destination, args.fileType, outputText)
 
 # How to run :-
-# python  & C:/Users/TEJAS/AppData/Local/Programs/Python/Python310/python.exe d:/GrowthVVork/MEserver/invoiceReader/main.py -src D:\GrowthVVork\MEserver\invoiceReader\test\ -dest D:\GrowthVVork\MEserver\invoiceReader\output\ -type .png
+# python d:/Workshiz/MEserver/invoiceReader/main.py -src D:\Workshiz\MEserver\invoiceReader\test\ -dest D:\Workshiz\MEserver\invoiceReader\output\ -type .png

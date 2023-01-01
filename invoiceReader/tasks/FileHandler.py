@@ -2,6 +2,7 @@ import pathlib
 import sys
 import os
 import shutil
+from PIL import Image
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 from libs.FileType import FileType
 import logging
@@ -72,5 +73,21 @@ class FileHandler:
         # Moving the file
         shutil.move(srcFilePath, destinationFile)
         return
+        
+    def cropFile(self, srcFilePath ):
+        # Opens image
+        image = Image.open(srcFilePath)
+        width, height = image.size
 
+        # Setting the points for cropped image
+        left = width/2
+        top = height/15
+        right = width * 3/4
+        bottom = height/4
+        
+        # Crop image of above dimension
+        cropImage = image.crop((left, top, right, bottom))
+        
+        # im1.show() Shows the image in image viewer
+        return cropImage
         
