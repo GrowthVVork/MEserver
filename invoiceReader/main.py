@@ -41,7 +41,7 @@ if __name__ == '__main__':
     for file in validFileList:
         # To see input file, uncomment below line
         # print(file)
-        val = parser.ocrParser(fileHandle.cropFile(file))
+        val = parser.ocrParser(file)
         outputText = ''
         for text in val:
             if re.findall(CONSTANTS.INVOICE_MATCHING_PATTERN, text):

@@ -8,6 +8,7 @@ from libs.FileType import FileType
 from invoiceReader.libs import CONSTANTS
 import logging
 LOGGER = logging.getLogger(__name__)
+import io
 from libs import CONSTANTS
 class FileHandler:
     def __init__(self) -> None:
@@ -83,7 +84,7 @@ class FileHandler:
         :param rightCoordinate: Integer - Right coordinate value
         :param topCoordinate: Integer - Top coordinate value
         :param bottomCoordinate: Integer - Bottom coordinate value
-        :return Image
+        :return :BytesIO Object
         """
         srcImage = Image.open(srcFilePath)
         width, height = srcImage.size
@@ -99,6 +100,8 @@ class FileHandler:
         
         # Uncomment below line to see the image in image viewer
         # croppedImage.show()
-        
-        return croppedImage
+        buf = io.BytesIO()
+        croppedImage.save(buf, format='PNG')
+        bytesValue = buf.getvalue()
+        return bytesValue
         
