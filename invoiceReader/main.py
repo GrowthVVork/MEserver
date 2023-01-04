@@ -51,4 +51,4 @@ if __name__ == '__main__':
                 fileHandle.moveFile(file, args.destination, args.fileType, outputText)
 
 # How to run :-
-# python  & C:/Users/TEJAS/AppData/Local/Programs/Python/Python310/python.exe d:/GrowthVVork/MEserver/invoiceReader/main.py -src D:\GrowthVVork\MEserver\invoiceReader\test\ -dest D:\GrowthVVork\MEserver\invoiceReader\output\ -type .png
+# python d:/Workshiz/MEserver/invoiceReader/main.py -src D:\Workshiz\MEserver\invoiceReader\test\ -dest D:\Workshiz\MEserver\invoiceReader\output\ -type .png

@@ -13,11 +13,12 @@ from libs.FileType import FileType
 from doctr.io import DocumentFile
 from doctr.models import ocr_predictor
 import re
+from tasks.FileHandler import FileHandler
 os.add_dll_directory(CONSTANTS.GTK_DLLS_ABS_PATH)
 class ocrReader:
     def __init__(self) -> None:
         pass
-    def ocrParser(self, filePath):
+    def ocrParser(self, filePath:str) -> str:
         """
         Scan given supported file and return list of strings.
         :param filePath: String - Absolute Path of file
@@ -28,14 +29,15 @@ class ocrReader:
             doc = DocumentFile.from_pdf(filePath)
             print("Found PDF type file {}".format(filePath))
         elif fileExtention == FileType.PNG.value:
-            doc = DocumentFile.from_images([filePath])
+            fileHandler = FileHandler()
+            doc = DocumentFile.from_images([fileHandler.cropImage(filePath)])
             print("Found PNG type file {}".format(filePath))
         else:
             print("Given file is of unsuppported type.")
             return None
         return self.__stringConversion(doc)
 
-    def __stringConversion(self, document):
+    def __stringConversion(self, document) -> str:
         """
         Do ocr on given document and return return list of strings.
         :param document: String - Absolute Path of file
@@ -67,8 +69,4 @@ class ocrReader:
 #         if re.findall(CONSTANTS.INVOICE_MATCHING_PATTERN, text):
 #             text = 'SI' + text[2:]
 #             print(text)
-
-
-
-
 
