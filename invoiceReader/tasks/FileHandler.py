@@ -78,7 +78,7 @@ class FileHandler:
         # Moving the file
         shutil.move(srcFilePath, destinationFile)
         return
-    
+
     @staticmethod
     def cropImage(srcFilePath, leftCoordinate = None, rightCoordinate = None, topCoordinate = None, bottomCoordinate = None):
         """
