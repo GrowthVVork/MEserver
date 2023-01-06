@@ -22,7 +22,6 @@ if __name__ == '__main__':
     # testFile = r'D:\GrowthVVork\MEserver\invoiceReader\test\37bad.png'
     # print(logging.Logger.manager.loggerDict)
     parser = ocrReader()
-    fileHandle = FileHandler()
     freeze_support()
     args = argParser.parse_args()
     if args.source == None:
@@ -36,7 +35,7 @@ if __name__ == '__main__':
     args.fileType = args.fileType.lower()
     if args.fileType not in [ext.value for ext in FileType]:
             SystemExit(1)
-    validFileList = fileHandle.filesSelector(args.source, args.fileType)
+    validFileList = FileHandler.filesSelector(args.source, args.fileType)
     # print(validFileList)
     for file in validFileList:
         # To see input file, uncomment below line
@@ -48,7 +47,7 @@ if __name__ == '__main__':
                 outputText = 'SI' + text[2:]
                 # SI/07336/19 as file name is not allowed :)
                 outputText = outputText.replace('/', '_')
-                fileHandle.moveFile(file, args.destination, args.fileType, outputText)
+                FileHandler.moveFile(file, args.destination, args.fileType, outputText)
 
 # How to run :-
 # python d:/Workshiz/MEserver/invoiceReader/main.py -src D:\Workshiz\MEserver\invoiceReader\test\ -dest D:\Workshiz\MEserver\invoiceReader\output\ -type .png
