@@ -13,8 +13,9 @@ from libs import CONSTANTS
 class FileHandler:
     def __init__(self) -> None:
         pass
-
-    def filesSelector(self, directory, extension):
+    
+    @staticmethod
+    def filesSelector(directory, extension):
         """
         Select only provided extention type of files from list of files in given directory.
         :param directory: String - Directory where files exist
@@ -30,7 +31,8 @@ class FileHandler:
         filesList = [os.path.join(directory, file) for file in filesList if pathlib.Path(file).suffix.lower() == extension]
         return filesList
 
-    def stringToFile(self, text, destFilePath):
+    @staticmethod
+    def stringToFile(text, destFilePath):
         """
         Write string to given file.
         :param text: String - String value to be written to file
@@ -46,7 +48,8 @@ class FileHandler:
         print("Invalid string value found to write into file, file creation failed for {}.".format(destFilePath))
         return None
     
-    def moveFile(self, srcFilePath, destinationPath, fileTypeValue, customName = None, overrideFlag = False):
+    @staticmethod
+    def moveFile(srcFilePath, destinationPath, fileTypeValue, customName = None, overrideFlag = False):
         """
         Move given file to destination.
         :param srcFilePath: String - Source file path
@@ -75,8 +78,9 @@ class FileHandler:
         # Moving the file
         shutil.move(srcFilePath, destinationFile)
         return
-        
-    def cropImage(self, srcFilePath, leftCoordinate = None, rightCoordinate = None, topCoordinate = None, bottomCoordinate = None):
+
+    @staticmethod
+    def cropImage(srcFilePath, leftCoordinate = None, rightCoordinate = None, topCoordinate = None, bottomCoordinate = None):
         """
         Crop the given image to a particular subsection as per given or default coordinates.
         :param srcFilePath: String - Source image file path

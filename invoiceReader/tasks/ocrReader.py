@@ -29,8 +29,7 @@ class ocrReader:
             doc = DocumentFile.from_pdf(filePath)
             print("Found PDF type file {}".format(filePath))
         elif fileExtention == FileType.PNG.value:
-            fileHandler = FileHandler()
-            doc = DocumentFile.from_images([fileHandler.cropImage(filePath)])
+            doc = DocumentFile.from_images([FileHandler.cropImage(filePath)])
             print("Found PNG type file {}".format(filePath))
         else:
             print("Given file is of unsuppported type.")
