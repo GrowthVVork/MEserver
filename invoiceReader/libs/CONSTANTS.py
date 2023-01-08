@@ -1,5 +1,5 @@
 GTK_DLLS_ABS_PATH = r"C:\Program Files\GTK3-Runtime Win64\bin"
-INVOICE_MATCHING_PATTERN = r'..+[/.-]\d+[/.-]\d+'
+INVOICE_MATCHING_PATTERN = r'S.*[0-9]{5}.2[1-9]{1}$'
 INVOICE_MIN_CHAR_LIMIT = 11
 from pathlib import Path
 mod_path = Path(__file__).parent.parent

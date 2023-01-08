@@ -44,9 +44,11 @@ if __name__ == '__main__':
         outputText = ''
         for text in val:
             if re.findall(CONSTANTS.INVOICE_MATCHING_PATTERN, text):
-                outputText = 'SI' + text[2:]
+                outputText = 'SI_' + text[-8:]
                 # SI/07336/19 as file name is not allowed :)
+                outputText = outputText[:-3] + '_' + outputText[-2:]
                 outputText = outputText.replace('/', '_')
+                outputText = outputText.replace('__', '_')
                 FileHandler.moveFile(file, args.destination, args.fileType, outputText)
 
 # How to run :-
