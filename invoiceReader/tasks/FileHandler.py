@@ -95,7 +95,7 @@ class FileHandler:
 
         # Setting the coordinates for cropped image
         left = width/CONSTANTS.LEFT_DIVISOR_VALUE if leftCoordinate is None else leftCoordinate
-        right = width/CONSTANTS.RIGHT_DIVISOR_VALUE if rightCoordinate is None else rightCoordinate
+        right = width*CONSTANTS.RIGHT_DIVISOR_VALUE if rightCoordinate is None else rightCoordinate
         top = height/CONSTANTS.TOP_DIVISOR_VALUE if topCoordinate is None else topCoordinate
         bottom = height/CONSTANTS.BOTTOM_DIVISOR_VALUE if bottomCoordinate is None else bottomCoordinate
         
